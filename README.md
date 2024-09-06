@@ -30,15 +30,19 @@ This Flask web application allows users to manage a stock portfolio by buying an
 ## Installation
 1. Clone the repository
    
+   ```
    git clone https://github.com/your-repo-name/flask-portfolio-app.git
 
-   cd flask-portfolio-app
+   cd stock-portfolio-app
+   ```
 
 2. Install dependencies
 
+   ``
    pip install -r requirements.txt
+   ``
 
-3. Setup the database
+4. Setup the database
 
 flask db init
 flask db migrate
@@ -46,7 +50,9 @@ flask db upgrade
 
 4. Run the application
 
+``
 flask run
+``
 
 5. Access the application
 
@@ -83,18 +89,16 @@ On the home page, the portfolio displays your current cash, stocks, and the tota
 ├── requirements.txt         # Dependencies
 └── README.md                # Project documentation
 ## Key Routes
+````
 /login: Log in to the application
 /register: Sign up for a new account
 /buy: Buy stocks
 /sell: Sell stocks
 /quote: Lookup current stock prices
 /history: View transaction history
+````
 ## Future Enhancements
 Transaction History Filter: Allow filtering based on time periods.
 Stock Search Autocomplete: Improve stock symbol input with suggestions.
 ## Contributing
 Contributions are welcome! Please fork this repository and create a pull request.
-
-## License
-This project is licensed under the MIT License.
-
