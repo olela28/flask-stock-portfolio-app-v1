@@ -42,3 +42,23 @@ def index():
                       GROUP BY symbol
                       HAVING total_shares > 0 OR symbol is NULL""",
                       user_id)
+    
+    cash = rows[0]["cash"] if rows else 0
+
+    results = []
+    stock_value = 0
+
+    for row in rows:
+        if row["symbol"] is None:
+            continue
+
+        stock = lookup(row["symbol"])
+        if stock:
+            row["price"] = stock["price"]
+            row["total"] = row["total_shares"] * row["price"]
+            stock_value += row["total"]
+            results.append(row)
+
+    grand_total = cash + stock_value
+
+    return render_template("index.html", cash=cash, results=results, stock_value=stock_value, grand_total=grand_total)
