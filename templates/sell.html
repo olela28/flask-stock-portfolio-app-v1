@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Sell
+{% endblock %}
+
+{% block main %}
+    <h1>Sell Stock</h1>
+
+
+    <form action="/sell" method="post">
+        <div class="mb-3">
+            <select class="form-select" name="symbol" id="symbol-select" onchange="updateSharesOptions()" style="width: 9.375rem; margin: 0 auto">
+                <option disabled selected value="">Symbol</option>
+                {% for symbol in symbols %}
+                <option value="{{ symbol['symbol'] }}" data-total-shares="{{ symbol['total_shares'] }}">{{ symbol['symbol'] }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="mb-3">
+                <input autocomplete="off" class="form-control mx-auto w-auto" name="shares" style="width: 9.375rem; margin: 0 auto" required placeholder="Shares" type="number">
+            </select>
+        </div>
+        <button class="btn btn-primary"  type="submit">Sell</button>
+    </form>
+{% endblock %}
