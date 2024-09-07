@@ -3,7 +3,7 @@ from flask import Flask, flash, redirect, render_template, request, session
 from flask_session import Session # type: ignore
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from templates.helpers import login_required, usd, lookup
+from templates.helpers import login_required, usd, lookup, apology
 
 # Configure application
 app = Flask(__name__)
@@ -83,6 +83,32 @@ def history():
 @app.route("/login", methods=["GET", "POST"])
 def login():
     """Log user in"""
+
+    session.clear()
+
+    if request.method == "POST":
+        if not request.form.get("username"):
+            return apology("must provide username", 403)
+        
+        elif not request.form.get("password"):
+            return apology("must provide password", 403)
+        
+        rows = db.execute(
+            "SELECT * FROM users WHERE username = ?", request.form.get("username")
+            )
+        
+        if len(rows) != 1 or not check_password_hash(
+            rows[0]["hash"], request.form.get("password")
+        ):
+            return apology("invalid username and/or password", 403)
+        
+        session["user_id"] = rows[0]["id"]
+
+        return redirect("/")
+    
+    else:
+        return render_template("login.html")
+
 
 
 @app.route("/logout")
