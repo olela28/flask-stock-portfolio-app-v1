@@ -264,3 +264,6 @@ def sell():
                              HAVING SUM(shares) > 0""",
                              user_id)
     return render_template("sell.html", symbols=symbols)
+
+if __name__ == '__main__':
+    app.run(debug=True)
