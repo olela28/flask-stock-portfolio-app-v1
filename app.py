@@ -1,9 +1,9 @@
-from cs50 import SQL
+from cs50 import SQL # type: ignore
 from flask import Flask, flash, redirect, render_template, request, session
-from flask_session import Session
+from flask_session import Session # type: ignore
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from templates.helpers import login_required
+from templates.helpers import login_required, usd, lookup
 
 # Configure application
 app = Flask(__name__)
@@ -66,21 +66,21 @@ def index():
     return render_template("index.html", cash=cash, results=results, stock_value=stock_value, grand_total=grand_total)
 
 
-@app.route("/buy" methods=["GET", "POST"])
+@app.route("/buy", methods=["GET", "POST"])
 @login_required
 def buy():
     """Buy shares of stock"""
 
 
 
-@app.route("/history" methods=["GET","POST"])
+@app.route("/history", methods=["GET","POST"])
 @login_required
 def history():
     """Show history of transactions"""
 
 
 
-@app.route("/login" methods=["GET", "POST"])
+@app.route("/login", methods=["GET", "POST"])
 def login():
     """Log user in"""
 
@@ -90,19 +90,19 @@ def logout():
     """Log user out"""
 
 
-@app.route("/quote" methods=["GET", "POST"])
+@app.route("/quote", methods=["GET", "POST"])
 @login_required
 def quote():
     """Get stock quote"""
 
 
-@app.route("/register" methods=["GET", "POST"])
+@app.route("/register", methods=["GET", "POST"])
 @login_required
 def register():
     """Register user in database"""
 
 
-@app.route("/sell" methods=["GET", "POST"])
+@app.route("/sell", methods=["GET", "POST"])
 @login_required
 def sell():
     """Sell shares of stock"""
