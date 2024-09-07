@@ -3,6 +3,8 @@ from flask import Flask, flash, redirect, render_template, request, session
 from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
 
+from templates.helpers import login_required
+
 # Configure application
 app = Flask(__name__)
 
@@ -62,3 +64,45 @@ def index():
     grand_total = cash + stock_value
 
     return render_template("index.html", cash=cash, results=results, stock_value=stock_value, grand_total=grand_total)
+
+
+@app.route("/buy" methods=["GET", "POST"])
+@login_required
+def buy():
+    """Buy shares of stock"""
+
+
+
+@app.route("/history" methods=["GET","POST"])
+@login_required
+def history():
+    """Show history of transactions"""
+
+
+
+@app.route("/login" methods=["GET", "POST"])
+def login():
+    """Log user in"""
+
+
+@app.route("/logout")
+def logout():
+    """Log user out"""
+
+
+@app.route("/quote" methods=["GET", "POST"])
+@login_required
+def quote():
+    """Get stock quote"""
+
+
+@app.route("/register" methods=["GET", "POST"])
+@login_required
+def register():
+    """Register user in database"""
+
+
+@app.route("/sell" methods=["GET", "POST"])
+@login_required
+def sell():
+    """Sell shares of stock"""
