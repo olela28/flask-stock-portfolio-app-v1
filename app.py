@@ -115,6 +115,10 @@ def login():
 def logout():
     """Log user out"""
 
+    session.clear()
+
+    return redirect("/")
+
 
 @app.route("/quote", methods=["GET", "POST"])
 @login_required
