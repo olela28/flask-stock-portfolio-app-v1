@@ -1,0 +1,31 @@
+{% extends "layout.html"}
+
+{% block title %}
+Log In
+{% endblock %}
+
+{% block body %}
+<div>
+    <h1>
+        Manage your stock portfolio the smart way!
+    </h1>
+</div>
+<div>
+    <p>
+        Buy and sell stocks with real-time updates of current stock prices.
+    </p>
+</div>
+
+<div>
+    <form action="/login" method="post">
+    <div class="mb-3">
+    <input autocomplete="off" autofocus class="form-control mx-auto w-auto" name="username" placeholder="Username" type="text">
+    </div>
+    <div class="mb-3">
+        <input class="form-control mx-auto w-auto" name="password" placeholder="Password" type="text">
+    </div>
+    <button class="btn btn-primary" type="submit">Log In</button>
+    </form>
+</div>
+
+{% endblock %}
