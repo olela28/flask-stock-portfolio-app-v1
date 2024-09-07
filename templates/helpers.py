@@ -1,7 +1,7 @@
 import csv
 import datetime
-import pytz # type: ignore
-import requests # type: ignore
+import pytz
+import requests
 import urllib
 import uuid
 

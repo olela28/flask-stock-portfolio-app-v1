@@ -1,57 +1,59 @@
 {% extends "layout.html" %}
+
 {% block title %}
-Portfolio
-{% endblock %}
-{% block body %}
-<h1>Your Portfolio</h1>
-{% if results %}
-<div class="table-responsive">
-    <table class="table table-hover">
-        <thead>
-            <tr class="table-secondary">
-                <th>Symbol</th>
-                <th>Shares</th>
-                <th>Price</th>
-                <th>Total Value</th>
-                <th>Buy</th>
-                <th>Sell</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for stock in results %}
-            <tr class="table-secondary">
-                <td>{{ stock.symbol }}</td>
-                <td>{{ stock.total_shares }}</td>
-                <td>{{ stock.price | usd }}</td>
-                <td>{{ stock.total | usd }}</td>
-                <td>
-                    <form action="/buy" method="post">
-                        <input type="hidden" name="symbol" value="{{ stock.symbol }}">
-                        <label for="symbol" class="col-form-label"></label>
-                        <input type="number" name="shares" class="form-control form-control-sm" placeholder="Shares" required style="max-width: fit-content;">
-                        <button type="submit" class="btn btn-primary btn-sm">Buy Again</button>
-                    </form>
-                </td>
-                <td>
-                    <form action="/sell" method="post">
-                        <input type="hidden" name="symbol" value="{{ stock.symbol }}">
-                        <label for="symbol" class="col-form-label"></label>
-                        <input type="number" name="shares" required style="max-width: fit-content;" placeholder="Shares" class="form-control form-control-sm">
-                        <button type="submit" class="btn btn-primary btn-sm">Sell</button>
-                    </form>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
-{% else %}
-<p>You currently have no stock in your Portfolio.</p>
-{% endif %}
+    Portfolio
 {% endblock %}
 
-<div style="text-align: right;">
-    <h5>Cash: {{ cash | usd }}</h5>
-    <h5>GRAND TOTAL: {{ grand_total | usd }}</h5>
-</div>
+{% block main %}
+
+    <h1>Your Portfolio</h1>
+    {% if results %}
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+                <tr class="table-secondary">
+                    <th>Symbol</th>
+                    <th>Shares</th>
+                    <th>Price</th>
+                    <th>Total Value</th>
+                    <th>Buy</th>
+                    <th>Sell</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for stock in results %}
+                    <tr class="table-secondary">
+                        <td>{{ stock.symbol }}</td>
+                        <td>{{ stock.total_shares }}</td>
+                        <td>{{ stock.price | usd }}</td>
+                        <td>{{ stock.total | usd }}</td>
+                        <td>
+                            <form action="/buy" method="post">
+                                <input name="symbol" type="hidden" value="{{ stock.symbol }}">
+                                <label class="col-form-label"></label>
+                                <input name="shares"  class="form-control form-control-sm" type="number" placeholder="Shares" required style="max-width: 75px;">
+                                <button type="submit" class="btn btn-primary btn-sm">Buy Again</button>
+                            </form>
+                        </td>
+                        <td>
+                            <form action="/sell" method="post">
+                                <input name="symbol" type="hidden" value="{{ stock.symbol }}">
+                                <input name="shares" type="number" placeholder="Shares" required style="max-width: 70px;">
+                                <button type="submit" class="btn btn-primary btn-sm">Sell</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <p>You currently have no stocks in your portfolio.</p>
+    {% endif %}
+
+    <div style="text-align: right">
+        <h5>Cash: {{ cash | usd }}</h5>
+        <h5>GRAND TOTAL: {{ grand_total | usd }}</h5>
+    </div>
 {% endblock %}
+
