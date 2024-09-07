@@ -65,7 +65,6 @@ def index():
 
     return render_template("index.html", cash=cash, results=results, stock_value=stock_value, grand_total=grand_total)
 
-
 @app.route("/buy", methods=["GET", "POST"])
 @login_required
 def buy():
@@ -108,7 +107,6 @@ def buy():
         return redirect("/")
     return render_template("buy.html")
 
-
 @app.route("/history", methods=["GET","POST"])
 @login_required
 def history():
@@ -122,9 +120,6 @@ def history():
                               user_id)
     return render_template("history.html", transactions=transactions)
     
-
-
-
 @app.route("/login", methods=["GET", "POST"])
 def login():
     """Log user in"""
@@ -154,8 +149,6 @@ def login():
     else:
         return render_template("login.html")
 
-
-
 @app.route("/logout")
 def logout():
     """Log user out"""
@@ -164,12 +157,23 @@ def logout():
 
     return redirect("/")
 
-
 @app.route("/quote", methods=["GET", "POST"])
 @login_required
 def quote():
     """Get stock quote"""
-
+    if request.method == "POST":
+        symbol = request.form.get("symbol")
+        if not symbol:
+            return apology("must provide symbol")
+        
+        quote = lookup(symbol)
+        if quote is None:
+            return apology("Invalid symbol")
+        
+        price = usd(quote["price"])
+        return render_template("quoted.html", quote=quote, price=price)
+    else:
+        return render_template("quote.html")
 
 @app.route("/register", methods=["GET", "POST"])
 @login_required
