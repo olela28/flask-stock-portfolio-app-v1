@@ -211,3 +211,53 @@ def register():
 @login_required
 def sell():
     """Sell shares of stock"""
+
+    user_id = session["user_id"]    
+
+    if request.method == "POST":
+        symbol = request.form.get("symbol")
+        if not symbol:
+            return apology("must provide symbol")
+        
+        shares_to_sell = request.form.get("shares")
+        if not shares_to_sell or not shares_to_sell.isdigit() or int(shares_to_sell) <= 0:
+            return apology("must provide valid number of shares")
+        
+        shares_to_sell = int(shares_to_sell)
+
+        rows = db.execute("""
+                          SELECT SUM(shares) AS total_shares
+                          FROM transactions
+                          WHERE user_id = ?
+                          AND symbol = ?
+                          GROUP BY symbol
+                          HAVING SUM(shares) > 0""",
+                          user_id, symbol)
+
+        if len(rows) != 1 or rows[0]["total_shares"] > shares_to_sell:
+            return apology("Input exceeds number of shares in your portfolio")
+        
+        stock = lookup(symbol)
+        if stock is None:
+            return apology("Invalid stock")
+        
+        sale = stock["price"] * shares_to_sell
+
+        db.execute("UPDATE users SET cash = cash + ? WHERE id = ?", sale, user_id)
+
+        db.excecute("""
+                    INSERT INTO transactions (user_id, symbol, shares, price, total, transaction_type)
+                    VALUES(?, ?, ?, ?, ?,?)""",
+                    user_id, symbol, shares_to_sell, stock["price"], sale, "SOLD")
+        
+        flash("Sold!")
+        return redirect("/")
+    
+    symbols = db.execute("""
+                             SELECT symbol, SUM(shares) AS total_shares
+                             FROM transactions
+                             WHERE user_id = ?
+                             GROUP BY symbol
+                             HAVING SUM(shares) > 0""",
+                             user_id)
+    return render_template("sell.html", symbols=symbols)
