@@ -131,6 +131,36 @@ def quote():
 def register():
     """Register user in database"""
 
+    if request.method == "POST":
+        if not request.form.get("username"):
+            return apology("must provide username", 400)
+        if not request.form.get("password"):
+            return apology("must provide password", 400)
+        if not request.form.get("confirmation"):
+            return apology("must reenter password", 400)
+        
+        if request.form.get("password") != request.form.get("confirmation"):
+            return apology("Passwords do not match!")
+        
+        try:
+            rows = db.execute(
+                "SELECT * FROM users WHERE username = ?", request.form.get("username")
+            )
+        except Exception as e:
+            return apology("Error!")
+        if len(rows) == 1:
+            return apology("Username already exists!", 400)
+        
+        hash = generate_password_hash(request.form.get("password"))
+        
+        rows = db.execute(
+                          "INSERT INTO users (username, hash) VALUES(?,?)",
+                          request.form.get("username"), hash)
+        
+        return redirect("/")
+    return render_template("register.html")
+
+
 
 @app.route("/sell", methods=["GET", "POST"])
 @login_required

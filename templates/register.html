@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+{% block title %}
+Register
+{% endblock %}
+
+{% block body %}
+<div>
+    <h1>Manage your stocks the smart way!</h1>
+</div>
+<div>
+    <p>
+        Buy and sell stocks with real-time updates of current stock prices.
+    </p>
+    <script>
+        function validatePasswords() {
+            const password = document.getElementById('password').value;
+            const confirmation = document.getElementById('confirmation').value;
+
+            if (password != confirmation) {
+                alert('Passwords do not match!');
+                return false;
+            }
+            return true;
+        }
+    </script>
+</div>
+<div>
+    <form action="/register" method="post" onsubmit="return validatePasswords()">
+        <div class="mb-3">
+            <input autocomplete="off" autofocus class="form-control mx-auto w-auto" name="Username" placeholder="Username" type="text">
+        </div>
+        <div class="mb-3">
+            <input class="form-control mx-auto w-auto" name="password" placeholder="Password" type="password">
+        </div>
+        <div class="mb-3">
+            <input class="form-control mx-auto w-auto" name="confirmation" placeholder="Confirmation" type="password">
+        </div>
+        <button class="btn btn-primary" type="submit">Register to get started</button>
+    </form>
+</div>
+{% endblock %}
