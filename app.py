@@ -73,7 +73,7 @@ def buy():
     if request.method == "POST":
         symbol = request.form.get("symbol")
         if not symbol:
-            return apology("must provide symbol", 403)
+            return apology("must provide symbol")
         stock = lookup(request.form.get("symbol"))
         if stock is None: 
             return apology("Invalid stock")
@@ -95,12 +95,12 @@ def buy():
             return apology("Insufficient funds for this purchase")
         
         db.execute(
-            "UPDATE users SET cash = cash - ?", total_cost, user_id
+            "UPDATE users SET cash = cash - ? WHERE id = ?", total_cost, user_id
         )
 
         db. execute("""
             INSERT INTO transactions (user_id, symbol, shares, price, total, transaction_type)
-            VALUES(?,?,?,?,?)""",
+            VALUES(?, ?, ?, ?, ?, ?)""",
                    user_id, symbol, int(shares), stock["price"], total_cost, "BOUGHT"
         )
         flash("Bought!")
