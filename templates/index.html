@@ -38,8 +38,9 @@
                         <td>
                             <form action="/sell" method="post">
                                 <input name="symbol" type="hidden" value="{{ stock.symbol }}">
-                                <label class="col-form-label"></label>
-                                <input name="shares" type="number" class="form-control form-control-sm" placeholder="Shares" required style="max-width: 70px;">
+                                <label class="col-form-label">
+                                <input name="shares" type="number" min="1" class="form-control form-control-sm" placeholder="Shares" required style="max-width: 70px;">
+                                </label>
                                 <button type="submit" class="btn btn-primary btn-sm">Sell</button>
                             </form>
                         </td>
