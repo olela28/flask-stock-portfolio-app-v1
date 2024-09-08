@@ -71,7 +71,7 @@ def lookup(symbol):
         response = requests.get(
             url,
             cookies={"session": str(uuid.uuid4())},
-            headers={"Accept": "*/*", "User-Agent": request.headers.get("User-Agent")},
+            headers={"Accept": "*/*", "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36"},
         )
         response.raise_for_status()
 
